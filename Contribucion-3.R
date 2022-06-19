@@ -1,8 +1,13 @@
 library(tidyverse)
 library(plotly)
-
+library(ggpattern)
+library(colorspace)
+library(ggrepel)
 
 contribucion_tbl <- read_csv("./data/Contribucion.csv")
+contribucion_tbl <- contribucion_tbl %>%
+#  group_by(Weringa_taxonomy) %>%
+  mutate(Ntot = sum(N))
 
 p <- ggplot(contribucion_tbl, aes(x="", y = N, pattern = Weringa_taxonomy, 
                                   pattern_angle = Weringa_taxonomy))+
@@ -18,11 +23,11 @@ p <- ggplot(contribucion_tbl, aes(x="", y = N, pattern = Weringa_taxonomy,
   theme_void(20) + 
   #geom_text(aes(label = paste0(N, "%")), position = position_stack(vjust = 0.5)) +
   geom_label_repel(data = contribucion_tbl, position = position_stack(vjust = 0.55),
-                   aes(label = paste0(N, "%"),
+                   aes(label = paste0(format(round(N/Ntot*100,2),nsmall =2), "%"),
                    size = 4.5), show.legend = FALSE) +
   theme(
     legend.key.size = unit(0.75, 'cm')
   ) + 
-  labs(title= "Weringa", fill="Taxonomia de Weringa")
+  labs(title= "", fill="")
 
 p
