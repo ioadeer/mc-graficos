@@ -3,6 +3,10 @@ library(tidyverse)
 
 contribucion_tbl <- read_csv("./data/Contribucion.csv")
 
+contribucion_tbl <- contribucion_tbl %>%
+  #  group_by(Weringa_taxonomy) %>%
+  mutate(Ntot = sum(N))
+
 pie <- ggplot(contribucion_tbl, aes(x = "", y=N, pattern = factor(Weringa_taxonomy),
                                     fill = factor(Weringa_taxonomy))) +
   geom_bar(width = 1, stat = "identity") +
@@ -12,8 +16,8 @@ pie <- ggplot(contribucion_tbl, aes(x = "", y=N, pattern = factor(Weringa_taxono
        x=NULL,
        y=NULL,
        title="",
-       caption="Tipo de aporte de acuerdo a taxonomía propuesta por Weringa") +
-  geom_text(aes(label = paste0(N, "%")), position = position_stack(vjust=0.5)) +
+       caption="") +
+  geom_text(aes(label = paste0(format(round(N/Ntot*100,2),nsmall =2), "%")), position = position_stack(vjust=0.5)) +
   theme_classic() +
   theme(axis.line = element_blank(),
         axis.text = element_blank(),

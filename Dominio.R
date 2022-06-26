@@ -10,7 +10,7 @@ pie2 <- ggplot(dominio_tbl, aes(x = "", y=N, fill = factor(Dominio))) +
        x=NULL, 
        y=NULL, 
        title="", 
-       caption="Aportes por dominio de acuerdo a taxonomía de ...") +
+       caption="") +
   geom_text(aes(label = paste0(N, "%")), position = position_stack(vjust=0.5), check_overlap = 'clip') +
   theme_classic() +
   theme(axis.line = element_blank(),
